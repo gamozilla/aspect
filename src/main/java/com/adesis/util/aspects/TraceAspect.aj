@@ -9,9 +9,15 @@ public aspect TraceAspect {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(TraceAspect.class);
 
-	// pointcut traced() : execution(modifier_pattern ret_type_pattern
-	// type_pattern.id_pattern(..));
-	pointcut traced() : execution(* *.*(..)) && !within(TraceAspect);
+	// XXX No jala pointcut getter() : get(public * *);
+	pointcut getter() : execution(public * *.get*());
+
+	pointcut setter() : execution(public * *.set*());
+
+	// This version shows more details in program flow, even if it's not very
+	// well formatted - pointcut traced() : !within(TraceAspect) && !getter() &&
+	// !setter();
+	pointcut traced() : execution(* *.*(..)) && !within(TraceAspect) && !getter() && !setter();
 
 	before() : traced() {
 		final Signature signature = thisJoinPointStaticPart.getSignature();
