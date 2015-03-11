@@ -12,7 +12,7 @@ public aspect TraceAspect {
 	// XXX No jala pointcut getter() : get(public * *);
 	pointcut getter() : execution(public * *.get*());
 
-	pointcut setter() : execution(public * *.set*());
+	pointcut setter() : execution(public void *.set*(Object+));
 
 	// This version shows more details in program flow, even if it's not very
 	// well formatted - pointcut traced() : !within(TraceAspect) && !getter() &&
